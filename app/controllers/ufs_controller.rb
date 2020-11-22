@@ -1,5 +1,4 @@
 class UfsController < ApplicationController
-  respond_to? :json
 
   def searchuf
     fecha_uf = Date.parse(params[:date])
@@ -10,9 +9,13 @@ class UfsController < ApplicationController
                   fecha_solicitada: fecha_uf,
                   valor: valor_uf
     }
-    render json: respuesta
 
-    Customer.create(customer_name: params[:cliente], request_date: Time.now, request: request.fullpath)
+    respond_to do |format|
+      format.json { render json: respuesta }
+      format.html.none  { render "trash" }
+    end
+
+    Customer.create(customer_name: params[:client], request_date: Time.now, request: request.fullpath)
 
   end
 end
