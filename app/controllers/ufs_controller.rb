@@ -1,30 +1,18 @@
 class UfsController < ApplicationController
-  before_action :valid_date?
 
-  def response
+  def searchuf
     fecha_uf = Date.parse(params[:date])
     @uf = Uf.find_by(date_Uf: fecha_uf)
-    @respuesta =  {
-                    fecha_solicitada: @uf.date_Uf,
-                    valor: @uf.value_Uf
-                  }
-    byebug
-    respond_to do |format|
-      format.json { render json: @respuesta }
-    end
-    byebug
-    Customer.create(params[:client, :date])
+    valor_uf = @uf.value_Uf
 
-    # JSON.pretty_generate(respuesta)
-    #format.json { render json: respuesta}
-    #render :json => { 
-    #                  :success => true,
-    #                  :respuesta => @uf.as_json
-    #                }
+    respuesta = {
+                  fecha_solicitada: fecha_uf,
+                  valor: valor_uf
+    }
+    byebug
+    render json: respuesta
   end
 
-  private
-  def valid_date?
-  end
+  # Search.create(name: params[:cliente], date: Time.now)
 
 end
